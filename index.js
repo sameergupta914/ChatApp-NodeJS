@@ -26,8 +26,14 @@ io.on('connection', (socket) => {
         }); 
         io.to(data.roomid).emit('msg_rcvd', data);
         // socket.emit('msg_rcvd', data);
-        // socket.broadcast.emit('msg_rcvd', data);
+        // socket.broadcast.emit('msg_rcvd', data);  ->emits to everyone but user
+        //io.to().emit  ->emits to everyone
     });
+
+    socket.on('typing', (data)=>{
+        socket.broadcast.to(data.roomid).emit('someone_typing');
+    })
+
 });
 
 app.set('view engine', 'ejs');
